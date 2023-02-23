@@ -1,0 +1,68 @@
+.header {
+  background: #14141f;
+  opacity: 0.9;
+  backdrop-filter: blur(2px);
+  width: 100%;
+  padding: 16px 0;
+}
+.header .content {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  align-items: center;
+  width: 1500px;
+}
+.header .content .left {
+  display: flex;
+  align-items: center;
+}
+.header .content .left .logo {
+  width: 78.75px;
+  height: 30px;
+}
+.header .content .left .searchInput {
+  background: #1f1f2c;
+  border-radius: 25px;
+  height: 40px;
+  width: 294px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  margin-left: 47px;
+}
+.header .content .left .searchInput .input {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: #fff;
+  margin-left: 18px;
+  border: none;
+  outline: none;
+}
+.header .content .left .searchInput .input::placeholder {
+  color: #8a8aa0;
+}
+.header .content .left .tabList {
+  margin-left: 89px;
+  display: flex;
+  align-items: center;
+}
+.header .content .left .tabList .item {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.6);
+  margin-right: 32px;
+  cursor: pointer;
+}
+.header .content .left .tabList .item.active {
+  color: #fff;
+}
