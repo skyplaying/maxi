@@ -30,12 +30,13 @@ import NoResult from "./NoResult";
 import FAQ from "./FAQ";
 import Contact01 from "./Contact01";
 import Contact02 from "./Contact02";
-import HomePage from "./Home/HomePage";
-
+import ProductDetail from './ProductDetail'
+import HomePage from './Home/HomePage'
 
 const routes = [
   // { path: '/', component: <Home01 />},
   { path: '/', component: <HomePage /> },
+  { path: '/product-detail', component: <ProductDetail /> }
   // { path: '/home-02', component: <Home02 /> },
   // { path: '/home-03', component: <Home03 /> },
   // { path: '/home-04', component: <Home04 /> },

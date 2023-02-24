@@ -13,10 +13,12 @@ import sortIcon from '../../assets/img/page/home/sort.png'
 import { getBanner, getNftDetail, getNftList } from 'src/service/home'
 import Slider from 'react-slick';
 import { Box } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
   const [nftList, setNftList] = useState([])
   const [bannerList, setBannerList] = useState([])
+  const history = useNavigate()
 
   const initData = async () => {
     const bList = await getBanner()
@@ -33,6 +35,9 @@ const Home = () => {
     initData()
   }, [])
 
+  const goProductDetail = id => {
+    history(`/product-detail`)
+  }
 
   const FirstContent = () => {
     return (
@@ -120,7 +125,7 @@ const Home = () => {
                     <p className={styles.label}>Price</p>
                     <p className={styles.value}>Free</p>
                   </div>
-                  <div className={styles.mintBtn}>
+                  <div className={styles.mintBtn} onClick={goProductDetail}>
                     <span className={styles.text}>mint</span>
                     <img src={chevron_right} alt='' />
                   </div>
@@ -161,7 +166,7 @@ const Home = () => {
         <div className={styles.list}>
           {list.map((item, index) => {
             return (
-              <div className={styles.item}>
+              <div className={styles.item} key={index}>
                 <div className={styles.endTime}>18 Aug 2023</div>
                 <div className={styles.descImg}>
                   <img className={styles.img} src={listItemDemo} alt='' />
@@ -183,7 +188,7 @@ const Home = () => {
                     <p className={styles.label}>Price</p>
                     <p className={styles.value}>Free</p>
                   </div>
-                  <div className={styles.mintBtn}>
+                  <div className={styles.mintBtn} onClick={goProductDetail}>
                     <span className={styles.text}>mint</span>
                     <img src={chevron_right} alt='' />
                   </div>
@@ -224,7 +229,7 @@ const Home = () => {
         <div className={styles.list}>
           {list.map((item, index) => {
             return (
-              <div className={styles.item}>
+              <div className={styles.item} key={index}>
                 <div className={styles.endTime}>18 Aug 2023</div>
                 <div className={styles.descImg}>
                   <img className={styles.img} src={listItemDemo} alt='' />
@@ -246,7 +251,7 @@ const Home = () => {
                     <p className={styles.label}>Price</p>
                     <p className={styles.value}>Free</p>
                   </div>
-                  <div className={styles.mintBtn}>
+                  <div className={styles.mintBtn} onClick={goProductDetail}>
                     <span className={styles.text}>mint</span>
                     <img src={chevron_right} alt='' />
                   </div>
