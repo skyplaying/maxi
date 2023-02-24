@@ -1107,7 +1107,8 @@ label.error {
 }
 
 .bg-style {
-  background-color: var(--primary-color5) !important;
+  background-color: #0D0D11 !important;
+  /* background-color: var(--primary-color5) !important; */
 }
 
 .bg-style2 {
@@ -1368,14 +1369,14 @@ a:focus {
 
 :root {
   /* color */
-  --primary-color: #fff;
-  --primary-color2: #1F1F2C;
+  --primary-color: #14141F;
+  --primary-color2: #14141F;
   --primary-color3: #5142FC;
   --primary-color4: #7A798A;
   --primary-color5: #F8F8F8;
   --primary-color6: #14141F;
   --primary-color7: #F8F8F8;
-  --bg-section: #fff;
+  --bg-section: #14141F;
   --bg-section2: #f8f8f8;
   --primary-color8: #7A798A;
   --primary-color9: #7A798A;
@@ -1383,14 +1384,14 @@ a:focus {
 
 .is_dark {
   --primary-color: #343444;
-  --primary-color2: #fff;
+  --primary-color2: #14141F;
   --primary-color4: rgba(255, 255, 255, 0.9);
   --primary-color5: #030303;
-  --primary-color6: #ffffff;
+  --primary-color6: #14141F;
   --primary-color7: #343444;
   --bg-section: #14141F;
   --bg-section2: #14141F;
-  --primary-color8: #fff;
+  --primary-color8: #14141F;
   --primary-color9: #8A8AA0;
 }
 
@@ -2290,6 +2291,7 @@ header {
 #footer {
   padding: 80px 0 80px;
   background: var(--bg-section);
+  font-family: 'Montserrat';
 }
 
 #footer.style-2 {
@@ -2359,7 +2361,8 @@ header {
 -------------------------------------------------------------- */
 .widget p,
 .widget .title-widget {
-  color: var(--primary-color2);
+  color: #fff;
+  /* color: var(--primary-color2); */
 }
 
 .fl-dark .widget p,
@@ -2649,7 +2652,7 @@ header {
 
 /* widget-subcribe */
 .widget-subcribe {
-  padding-top: 17px;
+  /* padding-top: 17px; */
   padding-left: 20px;
 }
 

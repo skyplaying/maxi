@@ -1,18 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/header/Header/Header'
 import Footer from '../../components/footer/Footer'
 import styles from './index.module.scss'
 import userInfoIcon from '../../assets/img/page/home/userInfo.png'
 import rightArrow from '../../assets/img/page/home/rightArrow.png'
-import dogeAvatar from '../../assets/img/page/home/doge-avatar.png'
+import dogeAvatar from '../../assets/img/page/home/suibear.webp'
 import listItemDemo from '../../assets/img/page/home/list-item-demo.png'
 import chevron_right from '../../assets/img/page/home/chevron_right.png'
 import categoryIcon from '../../assets/img/page/home/category.png'
-import { useState } from 'react'
 import { Pagination } from '@mui/material'
 import sortIcon from '../../assets/img/page/home/sort.png'
+import { getBanner, getNftDetail, getNftList } from 'src/service/home'
+import Slider from 'react-slick';
+import { Box } from '@mui/material'
 
 const Home = () => {
+  const [nftList, setNftList] = useState([])
+  const [bannerList, setBannerList] = useState([])
+
+  const initData = async () => {
+    const bList = await getBanner()
+    setBannerList(bList)
+    const nList = await getNftList({
+      pageIndex: 0,
+      pageSize: 10,
+      status: 'minting'
+    })
+    setNftList(nList?.maxiNftCollectionList)
+  }
+
+  useEffect(() => {
+    initData()
+  }, [])
+
+
   const FirstContent = () => {
     return (
       <>
@@ -38,6 +59,31 @@ const Home = () => {
               <img src={dogeAvatar} alt='' />
             </div>
           </div>
+          {/* <Slider
+            // ref={sliderRef}
+            // customPaging={(i) => previewList(i)}
+            dots
+            infinite
+            speed={500}
+            slidesToShow={1}
+            slidesToScroll={1}
+            dotsClass="slick-dots slick-thumb"
+          >
+            {bannerList?.map((item) => (
+              <Box
+                src={item.imageUrl}
+                alt={item.title}
+                key={item.id}
+                loading="lazy"
+                component="img"
+                className={styles.right}
+                sx={{
+                  width: 100,
+                  height: 100
+                }}
+              />
+            ))}
+          </Slider> */}
         </div>
 
         <div className={styles.mintNowList}></div>
@@ -46,18 +92,16 @@ const Home = () => {
   }
 
   const MintNowList = () => {
-    const [mintList, setMintList] = useState([1, 2, 3, 4])
-
     return (
       <div className={styles.mintNowList}>
         <div className={styles.title}>Minting now</div>
         <div className={styles.list}>
-          {mintList.map((item, index) => {
+          {nftList?.map((item, index) => {
             return (
               <div className={styles.item}>
                 <div className={styles.endTime}>Ends in 01d 08h 08m 23s</div>
                 <div className={styles.descImg}>
-                  <img className={styles.img} src={listItemDemo} alt='' />
+                  <img className={styles.img} src={item.imageUrl} alt='' />
                   <div className={styles.tagList}>
                     <div className={styles.tag}>Game Pass</div>
                     <div className={styles.tag}>PFP</div>
@@ -70,7 +114,7 @@ const Home = () => {
                 <div className={styles.operateBox}>
                   <div className={styles.priceInfo}>
                     <p className={styles.label}>Item</p>
-                    <p className={styles.value}>1000</p>
+                    <p className={styles.value}>{item.nftCollectionId}</p>
                   </div>
                   <div className={styles.priceInfo}>
                     <p className={styles.label}>Price</p>

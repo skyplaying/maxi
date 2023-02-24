@@ -4,7 +4,7 @@
   backdrop-filter: blur(2px);
 }
 .home .container {
-  width: 1500px;
+  width: 1280px;
   margin: 0 auto;
 }
 .home .container .firstContent {
@@ -14,7 +14,7 @@
   justify-content: space-between;
 }
 .home .container .firstContent .left .title {
-  font-family: "Montserrat";
+  font-family: "Montserrat Bold";
   font-style: normal;
   font-weight: 700;
   font-size: 60px;
@@ -60,7 +60,7 @@
   height: 48px;
   background: linear-gradient(90deg, #1785ff 0%, #9414ff 100%);
   border-radius: 30px;
-  font-family: "Montserrat";
+  font-family: "Montserrat Regular";
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
@@ -115,7 +115,7 @@
   height: 26px;
   background: #5142fc;
   border-radius: 9px;
-  font-family: "Montserrat";
+  font-family: "Montserrat Bold";
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -156,7 +156,7 @@
   margin-top: 20px;
 }
 .home .container .mintNowList .list .item .createInfo .symbol {
-  font-family: "Montserrat";
+  font-family: "Montserrat Bold";
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
@@ -189,7 +189,7 @@
   color: #8a8aa0;
 }
 .home .container .mintNowList .list .item .operateBox .priceInfo .value {
-  font-family: "Montserrat";
+  font-family: "Montserrat Bold";
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -223,7 +223,7 @@
   margin-left: 6px;
 }
 .home .container .unComingList .title {
-  font-family: "Montserrat";
+  font-family: "Montserrat Bold";
   font-style: normal;
   font-weight: 700;
   font-size: 26px;
@@ -344,7 +344,7 @@
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(20px);
   border-radius: 33.6px;
-  font-family: "Montserrat";
+  font-family: "Montserrat Bold";
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
@@ -388,7 +388,7 @@
   color: #8a8aa0;
 }
 .home .container .unComingList .list .item .operateBox .priceInfo .value {
-  font-family: "Montserrat";
+  font-family: "Montserrat Bold";
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
@@ -410,7 +410,7 @@
   cursor: pointer;
 }
 .home .container .unComingList .list .item .operateBox .mintBtn .text {
-  font-family: "Montserrat";
+  font-family: "Montserrat Bold";
   font-style: normal;
   font-weight: 700;
   font-size: 15px;

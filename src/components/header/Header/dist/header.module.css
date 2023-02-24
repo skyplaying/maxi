@@ -33,7 +33,7 @@
   margin-left: 47px;
 }
 .header .content .left .searchInput .input {
-  font-family: "Montserrat";
+  font-family: "Montserrat Regular";
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -52,7 +52,7 @@
   align-items: center;
 }
 .header .content .left .tabList .item {
-  font-family: "Montserrat";
+  font-family: "Montserrat Regular";
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
