@@ -53,7 +53,7 @@ const Home = () => {
               to our metaverse - an open-world environment full of economic opportunity and fun
               group endeavours. Get your entry onto our Bear World by securing a Sui Bear.
             </div>
-            <div className={styles.viewDetailBtn}>
+            <div className={styles.viewDetailBtn} onClick={goProductDetail}>
               <span>View Details</span>
               <img className={styles.rightArrow} src={rightArrow} alt='' />
             </div>
@@ -103,7 +103,7 @@ const Home = () => {
         <div className={styles.list}>
           {nftList?.map((item, index) => {
             return (
-              <div className={styles.item}>
+              <div className={styles.item} key={index}>
                 <div className={styles.endTime}>Ends in 01d 08h 08m 23s</div>
                 <div className={styles.descImg}>
                   <img className={styles.img} src={item.imageUrl} alt='' />
