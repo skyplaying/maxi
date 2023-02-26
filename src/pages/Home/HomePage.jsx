@@ -175,7 +175,7 @@ const Home = () => {
     ])
     return (
       <div className={styles.unComingList}>
-        <div className={styles.title}>Upcoming ({list.length || 0})</div>
+        <div className={styles.title}>Upcoming ({upcomingNftList.length || 0})</div>
         <div className={styles.filter}>
           <div className={styles.tagsBox}>
             <img className={styles.icon} src={categoryIcon} alt='' />
@@ -238,7 +238,7 @@ const Home = () => {
     ])
     return (
       <div className={styles.unComingList}>
-        <div className={styles.title}>Ended ({list.length || 0})</div>
+        <div className={styles.title}>Ended ({endNftList.length || 0})</div>
         <div className={styles.filter}>
           <div className={styles.tagsBox}>
             <img className={styles.icon} src={categoryIcon} alt='' />

@@ -155,7 +155,7 @@ const Home = () => {
 
             <div className={styles.viewDetailBtn}>
               <img className={styles.icon} src={cartIcon} alt='' />
-              <span>View Details</span>
+              <span>Mint now</span>
             </div>
           </div>
         </div>
