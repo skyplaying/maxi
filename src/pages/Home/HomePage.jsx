@@ -16,7 +16,9 @@ import { Box } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
-  const [nftList, setNftList] = useState([])
+  const [mintingNftList, setMintingNftList] = useState([])
+  const [upcomingNftList, setUpcomingNftList] = useState([])
+  const [endNftList, setEndNftList] = useState([])
   const [bannerList, setBannerList] = useState([])
   const history = useNavigate()
 
@@ -25,10 +27,22 @@ const Home = () => {
     setBannerList(bList)
     const nList = await getNftList({
       pageIndex: 0,
-      pageSize: 10,
+      pageSize: 12,
       status: 'minting'
     })
-    setNftList(nList?.maxiNftCollectionList)
+    setMintingNftList(nList?.maxiNftCollectionList)
+    const upcomingList = await getNftList({
+      pageIndex: 0,
+      pageSize: 12,
+      status: 'upcoming'
+    })
+    setUpcomingNftList(upcomingList?.maxiNftCollectionList)
+    const endedList = await getNftList({
+      pageIndex: 0,
+      pageSize: 12,
+      status: 'ended'
+    })
+    setEndNftList(endedList?.maxiNftCollectionList)
   }
 
   useEffect(() => {
@@ -101,36 +115,46 @@ const Home = () => {
       <div className={styles.mintNowList}>
         <div className={styles.title}>Minting now</div>
         <div className={styles.list}>
-          {nftList?.map((item, index) => {
+          {mintingNftList?.map((item, index) => {
             return (
-              <div className={styles.item} key={index}>
-                <div className={styles.endTime}>Ends in 01d 08h 08m 23s</div>
-                <div className={styles.descImg}>
-                  <img className={styles.img} src={item.imageUrl} alt='' />
-                  <div className={styles.tagList}>
-                    <div className={styles.tag}>Game Pass</div>
-                    <div className={styles.tag}>PFP</div>
+              <Box
+                sx={{
+                  cursor: 'pointer',
+                  "&:hover": {
+                    transform: 'scale(1.04)'
+                  }
+                }}
+                onClick={goProductDetail}
+              >
+                <div className={styles.item} key={index}>
+                  <div className={styles.endTime}>Ends in 01d 08h 08m 23s</div>
+                  <div className={styles.descImg}>
+                    <img className={styles.img} src={item.imageUrl} alt='' />
+                    <div className={styles.tagList}>
+                      <div className={styles.tag}>Game Pass</div>
+                      <div className={styles.tag}>PFP</div>
+                    </div>
+                  </div>
+                  <div className={styles.createInfo}>
+                    <span className={styles.symbol}>SuiApe</span>
+                    <span className={styles.user}>By Puke2Earn Labs</span>
+                  </div>
+                  <div className={styles.operateBox}>
+                    <div className={styles.priceInfo}>
+                      <p className={styles.label}>Item</p>
+                      <p className={styles.value}>{item.nftCollectionId}</p>
+                    </div>
+                    <div className={styles.priceInfo}>
+                      <p className={styles.label}>Price</p>
+                      <p className={styles.value}>Free</p>
+                    </div>
+                    <div className={styles.mintBtn} onClick={goProductDetail}>
+                      <span className={styles.text}>mint</span>
+                      <img src={chevron_right} alt='' />
+                    </div>
                   </div>
                 </div>
-                <div className={styles.createInfo}>
-                  <span className={styles.symbol}>SuiApe</span>
-                  <span className={styles.user}>By Puke2Earn Labs</span>
-                </div>
-                <div className={styles.operateBox}>
-                  <div className={styles.priceInfo}>
-                    <p className={styles.label}>Item</p>
-                    <p className={styles.value}>{item.nftCollectionId}</p>
-                  </div>
-                  <div className={styles.priceInfo}>
-                    <p className={styles.label}>Price</p>
-                    <p className={styles.value}>Free</p>
-                  </div>
-                  <div className={styles.mintBtn} onClick={goProductDetail}>
-                    <span className={styles.text}>mint</span>
-                    <img src={chevron_right} alt='' />
-                  </div>
-                </div>
-              </div>
+              </Box>
             )
           })}
         </div>
@@ -164,7 +188,7 @@ const Home = () => {
         </div>
 
         <div className={styles.list}>
-          {list.map((item, index) => {
+          {upcomingNftList.map((item, index) => {
             return (
               <div className={styles.item} key={index}>
                 <div className={styles.endTime}>18 Aug 2023</div>
@@ -227,7 +251,7 @@ const Home = () => {
         </div>
 
         <div className={styles.list}>
-          {list.map((item, index) => {
+          {endNftList.map((item, index) => {
             return (
               <div className={styles.item} key={index}>
                 <div className={styles.endTime}>18 Aug 2023</div>

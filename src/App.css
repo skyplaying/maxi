@@ -3,16 +3,19 @@
   font-family: 'Montserrat';
   src: url('../src/assets/fonts/Montserrat-Medium.ttf');
 }
+
 /* 500 */
 @font-face {
   font-family: 'Montserrat Regular';
   src: url('../src/assets/fonts/Montserrat-Regular.ttf');
 }
+
 /* 600 */
 @font-face {
   font-family: 'Montserrat SemiBold';
   src: url('../src/assets/fonts/Montserrat-SemiBold.ttf');
 }
+
 /* 700 */
 @font-face {
   font-family: 'Montserrat Bold';
@@ -57,4 +60,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.MuiTooltip-popper .MuiTooltip-tooltip {
+  background: #fff !important;
+  font-family: 'Montserrat Bold';
+  font-weight: 600;
+  color: #000;
+  max-width: 400px;
 }

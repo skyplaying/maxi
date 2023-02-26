@@ -12,16 +12,20 @@ import { Pagination } from '@mui/material'
 import sortIcon from '../../assets/img/page/home/sort.png'
 import { getBanner, getNftDetail, getNftList } from 'src/service/home'
 import Slider from 'react-slick'
-import { Box } from '@mui/material'
+import { Box, Tooltip, Accordion, AccordionSummary, Typography, AccordionDetails } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import netIcon from '../../assets/img/page/product_detail/net.png'
 import discordIcon from '../../assets/img/page/product_detail/discord.png'
 import twitterIcon from '../../assets/img/page/product_detail/twitter.png'
 import telegramIcon from '../../assets/img/page/product_detail/telegram.png'
 import noteIcon from '../../assets/img/page/product_detail/note.png'
 import cartIcon from '../../assets/img/page/product_detail/cartIcon.png'
+import notifyBtn from '../../assets/img/page/product_detail/notifyBtn.svg'
 import classNames from 'classnames'
 import ArrowDownIcon from '../../assets/img/page/product_detail/arrowDown.png'
+import { fontSize } from '@mui/system'
+import AccordionCard from './AccordionCard'
 
 const Home = () => {
   const [nftList, setNftList] = useState([])
@@ -204,118 +208,30 @@ const Home = () => {
               )
             })}
           </div>
-          <div className={styles.questionList}>
-            {questionList.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className={classNames(styles.item, activeTab === index && styles.active)}
-                  onClick={() => onQuestionClick(item, index)}
-                >
-                  <div className={styles.t1}>
-                    <span>{item.title}</span>
-                    <span>{item.checked ? '-' : '+'}</span>
+          {activeTab === 0
+            ? <div className={styles.questionList}>
+              {questionList.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={classNames(styles.item, activeTab === index && styles.active)}
+                    onClick={() => onQuestionClick(item, index)}
+                  >
+                    <div className={styles.t1}>
+                      <span>{item.title}</span>
+                      <span>{item.checked ? '-' : '+'}</span>
+                    </div>
+                    {item.checked && <div className={styles.t2}>{item.content}</div>}
                   </div>
-                  {item.checked && <div className={styles.t2}>{item.content}</div>}
-                </div>
-              )
-            })}
-          </div>
+                )
+              })}
+            </div>
+            : <div className={styles.questionList}></div>}
         </div>
-        <div>
-          <div className={styles.box2}>
-            <div className={styles.b1}>
-              <div className={styles.title}>
-                <div className={styles.t1}>Private Sale</div>
-                <div className={styles.t2}>
-                  <div className={styles.statusBar}>Active | Ends in 01d 08h 08m 23s</div>
-                  <img className={styles.arrow} />
-                </div>
-              </div>
-              <div className={styles.b2}>0.1 SUI | Max 2 per wallet</div>
-              <div className={styles.b3}>
-                <p>Whitelist requirement:</p>
-                <p>1.You need to follow @NFTPROJ on Twitter</p>
-                <p>
-                  2.You need to obtain Genie, King role in @NFTPROJ Discord server Click here to
-                  view the whitelist
-                </p>
-                <p>
-                  PS: Members of Maxi Pad will be automatically added to the whitelist. View our
-                  membership policy here.
-                </p>
-              </div>
-              <div className={styles.btnBox}>
-                <div className={styles.btn1}>Check Eligibility</div>
-                <div className={styles.btn2}>
-                  <img src='' alt='' />
-                  <span>Notify Me</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.box2}>
-            <div className={styles.b1}>
-              <div className={styles.title}>
-                <div className={styles.t1}>Airdrop</div>
-                <div className={styles.t2}>
-                  <div className={styles.statusBar}>Active | Ends in 01d 08h 08m 23s</div>
-                  <img className={styles.arrow} />
-                </div>
-              </div>
-              <div className={styles.b2}>0.1 SUI | Max 2 per wallet</div>
-              <div className={styles.b3}>
-                <p>Whitelist requirement:</p>
-                <p>1.You need to follow @NFTPROJ on Twitter</p>
-                <p>
-                  2.You need to obtain Genie, King role in @NFTPROJ Discord server Click here to
-                  view the whitelist
-                </p>
-                <p>
-                  PS: Members of Maxi Pad will be automatically added to the whitelist. View our
-                  membership policy here.
-                </p>
-              </div>
-              <div className={styles.btnBox}>
-                <div className={styles.btn1}>Check Eligibility</div>
-                <div className={styles.btn2}>
-                  <img src='' alt='' />
-                  <span>Notify Me</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={styles.box2}>
-            <div className={styles.b1}>
-              <div className={styles.title}>
-                <div className={styles.t1}>Public Sale</div>
-                <div className={styles.t2}>
-                  <div className={styles.statusBar}>Active | Ends in 01d 08h 08m 23s</div>
-                  <img className={styles.arrow} />
-                </div>
-              </div>
-              <div className={styles.b2}>0.1 SUI | Max 2 per wallet</div>
-              <div className={styles.b3}>
-                <p>Whitelist requirement:</p>
-                <p>1.You need to follow @NFTPROJ on Twitter</p>
-                <p>
-                  2.You need to obtain Genie, King role in @NFTPROJ Discord server Click here to
-                  view the whitelist
-                </p>
-                <p>
-                  PS: Members of Maxi Pad will be automatically added to the whitelist. View our
-                  membership policy here.
-                </p>
-              </div>
-              <div className={styles.btnBox}>
-                <div className={styles.btn1}>Check Eligibility</div>
-                <div className={styles.btn2}>
-                  <img src='' alt='' />
-                  <span>Notify Me</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div style={{ width: '622px' }}>
+          <AccordionCard defaultExpanded={true} />
+          <AccordionCard title="Airdrop" />
+          <AccordionCard title='Public Sale' />
         </div>
       </div>
     )

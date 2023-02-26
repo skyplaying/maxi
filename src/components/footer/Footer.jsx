@@ -61,7 +61,7 @@ const Footer = () => {
   const socialList = [
     {
       icon: "fab fa-twitter",
-      link: "#"
+      link: "https://twitter.com/Maxi_sui"
     },
     // {
     //     icon: "fab fa-facebook",
@@ -195,7 +195,7 @@ const Footer = () => {
                   <ul>
                     {socialList.map((item, index) => (
                       <li key={index}>
-                        <Link to={item.link}>
+                        <Link to={item.link} target='_blank'>
                           <i className={item.icon}></i>
                         </Link>
                       </li>
