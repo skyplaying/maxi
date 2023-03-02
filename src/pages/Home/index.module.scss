@@ -3,15 +3,30 @@
   opacity: 0.9;
   backdrop-filter: blur(2px);
 
+  @media (max-width:750px) {
+    padding: 20px;
+    margin-top: 50px;
+  }
+
   .container {
     width: 1200px;
+
+    @media (max-width:750px) {
+      width: calc(100vw - 40px);
+    }
+
     margin: 0 auto;
 
     .firstContent {
-      margin-top: 66px;
+      margin-top: 100px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      @media (max-width:750px) {
+        flex-flow: column-reverse;
+        margin-top: 0;
+      }
 
       .left {
         .title {
@@ -53,6 +68,10 @@
           color: #a1a1a5;
           width: 448px;
           margin-top: 10px;
+
+          @media (max-width:750px) {
+            width: calc(100vw - 40px);
+          }
         }
 
         .viewDetailBtn {
@@ -90,6 +109,13 @@
             border-radius: 24px;
             //TODO
             margin-left: 255px;
+
+            @media (max-width:750px) {
+              width: calc(100vw - 40px);
+              height: calc(100vw - 40px);
+              margin-left: 0;
+            }
+
           }
         }
       }
@@ -105,29 +131,43 @@
         text-transform: capitalize;
         color: #ffffff;
         margin-bottom: 39px;
+        margin-top: 20px;
       }
 
       .list {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
+
+        @media (max-width:750px) {
+          flex-direction: column;
+          width: calc(100vw - 40px);
+          margin: 10px 0;
+        }
 
         .item {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
           width: 240px;
-          height: 380px;
+          // height: 380px;
           filter: drop-shadow(0px 3px 16px rgba(47, 83, 109, 0.12));
           border-radius: 20px;
           padding: 19px;
           background: #343444;
+          min-height: 270px;
 
-          // margin-right: 68px;
+          @media (max-width:750px) {
+            flex-direction: column;
+            width: calc(100vw - 40px);
+            margin: 10px 0;
+            height: auto;
+          }
+
           &:nth-child(4n) {
-              margin-right: 0 !important;
-            }
+            margin-right: 0 !important;
+          }
 
           .endTime {
             padding: 0px 12px;
@@ -205,6 +245,10 @@
             justify-content: space-between;
             margin-top: 10px;
 
+            @media (max-width:750px) {
+              width: 100%;
+            }
+
             .priceInfo {
               margin-right: 20px;
 
@@ -278,6 +322,11 @@
         justify-content: space-between;
         align-items: center;
 
+        @media (max-width:750px) {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
         .tagsBox {
           display: flex;
           flex-direction: row;
@@ -297,6 +346,10 @@
           min-width: 204px;
           max-width: 300px;
           cursor: pointer;
+
+          @media (max-width:750px) {
+            margin-bottom: 10px;
+          }
 
           .icon {
             width: 24px;
@@ -336,23 +389,35 @@
         flex-wrap: wrap;
         align-items: center;
         margin-top: 50px;
-        justify-content: space-between;
+        justify-content: flex-start;
+
+        @media (max-width:750px) {
+          margin-top: 20px;
+        }
 
         .item {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
           width: 240px;
-          height: 380px;
+          // height: 380px;
+          min-height: 270px;
           filter: drop-shadow(0px 3px 16px rgba(47, 83, 109, 0.12));
           border-radius: 20px;
           padding: 19px;
           background: #343444;
-          margin-right: 68px;
+          margin-right: 80px;
           margin-bottom: 42px;
 
+          @media (max-width:750px) {
+            flex-direction: column;
+            width: calc(100vw - 40px);
+            margin: 10px 0;
+            height: auto;
+          }
+
           &:nth-child(4n) {
-              margin-right: 0 !important;
+            margin-right: 0 !important;
           }
 
           .endTime {
@@ -430,6 +495,10 @@
             align-items: center;
             justify-content: space-between;
             margin-top: 10px;
+
+            @media (max-width:750px) {
+              width: 100%;
+            }
 
             .priceInfo {
               margin-right: 20px;

@@ -11,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import '@suiet/wallet-kit/style.css'
+import Header from './components/header/Header/Header'
+import Footer from './components/footer/Footer'
 function getLibrary(provider) {
   const library = new Web3Provider(provider)
   library.pollingInterval = 5000
@@ -19,6 +21,7 @@ function getLibrary(provider) {
 function App() {
   return (
     <WalletProvider getLibrary={getLibrary}>
+      <Header />
       <Routes>
         {routes.map((data, index) => (
           <Route
@@ -30,7 +33,7 @@ function App() {
           />
         ))}
       </Routes>
-
+      <Footer />
       <ToastContainer autoClose={2000} />
     </WalletProvider>
   )

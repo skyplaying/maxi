@@ -107,12 +107,18 @@ const Header = () => {
                   fontFamily: 'Montserrat',
                   fontSize: '12px',
                   color: '#fff',
+                  '@media (max-width:750px)': {
+                    display: 'none'
+                  }
                 },
                 '.wkit-address-select': {
                   span: {
                     fontFamily: 'Montserrat',
                     fontSize: '12px',
                     color: '#fff',
+                    '@media (max-width:750px)': {
+                      // lineHeight: '40px',
+                    }
                   }
                 },
                 '&:hover': {
@@ -122,6 +128,11 @@ const Header = () => {
                   border: 'none'
                 }
               },
+              ' @media (max-width:750px)': {
+                width: 120,
+                height: 40,
+                borderRadius: '20px',
+              }
             },
             '.wkit-button': {
               width: 200,
@@ -134,11 +145,18 @@ const Header = () => {
               '&:hover': {
                 border: 'none',
                 color: '#fff'
+              },
+              '@media (max-width:750px)': {
+                width: 120,
+                height: 40,
+                borderRadius: '20px',
+                fontSize: '12px',
+                p: 0,
               }
             }
           }}
         >
-          <ConnectButton label="Connect Wallet"/>
+          <ConnectButton label="Connect Wallet" />
         </Box>
         {/* <DarkMode /> */}
       </div>

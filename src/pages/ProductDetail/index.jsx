@@ -1,6 +1,4 @@
 import React, { memo, useEffect, useState } from 'react'
-import Header from '../../components/header/Header/Header'
-import Footer from '../../components/footer/Footer'
 import styles from './index.module.scss'
 import userInfoIcon from '../../assets/img/page/home/userInfo.png'
 import rightArrow from '../../assets/img/page/home/rightArrow.png'
@@ -26,6 +24,7 @@ import classNames from 'classnames'
 import ArrowDownIcon from '../../assets/img/page/product_detail/arrowDown.png'
 import { fontSize } from '@mui/system'
 import AccordionCard from './AccordionCard'
+import { checkEligibility } from '../../service/mint'
 
 const Home = () => {
   const [nftList, setNftList] = useState([])
@@ -99,6 +98,7 @@ const Home = () => {
 
   useEffect(() => {
     initData()
+    checkEligibility()
   }, [])
 
   const goProductDetail = () => {
@@ -228,7 +228,7 @@ const Home = () => {
             </div>
             : <div className={styles.questionList}></div>}
         </div>
-        <div style={{ width: '622px' }}>
+        <div className='accordion-card'>
           <AccordionCard defaultExpanded={true} />
           <AccordionCard title="Airdrop" />
           <AccordionCard title='Public Sale' />
@@ -239,7 +239,6 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-      <Header />
       <div className={styles.container}>
         {/* <Slider data={heroSliderData} />
       <LiveAuction data={liveAuctionData} />
@@ -250,8 +249,6 @@ const Home = () => {
         <FirstContent />
         <SencondContent />
       </div>
-
-      <Footer />
     </div>
   )
 }

@@ -114,14 +114,26 @@ const Home = () => {
     return (
       <div className={styles.mintNowList}>
         <div className={styles.title}>Minting now</div>
-        <div className={styles.list}>
+        <div
+          className={styles.list}
+        >
           {mintingNftList?.map((item, index) => {
             return (
               <Box
                 sx={{
                   cursor: 'pointer',
+                  marginRight: '80px',
+                  '&:nth-child(4n)': {
+                    marginRight: '0 ',
+                  },
                   "&:hover": {
                     transform: 'scale(1.04)'
+                  },
+                  '@media (max-width:750px)': {
+                    marginRight: '0',
+                    '&:nth-child(4n)': {
+                      marginRight: '0',
+                    }
                   }
                 }}
                 onClick={goProductDetail}
@@ -289,23 +301,25 @@ const Home = () => {
     )
   }
   return (
-    <div className={styles.home}>
-      <Header />
-      <div className={styles.container}>
-        {/* <Slider data={heroSliderData} />
+    <>
+      {/* <Header /> */}
+      <div className={styles.home}>
+        <div className={styles.container}>
+          {/* <Slider data={heroSliderData} />
       <LiveAuction data={liveAuctionData} />
       <TopSeller data={topSellerData} />
       <TodayPicks data={todayPickData} />
       <PopularCollection data={popularCollectionData} />
       <Create /> */}
-        <FirstContent />
-        <MintNowList />
-        <UnComingList />
-        <EndList />
-      </div>
+          <FirstContent />
+          <MintNowList />
+          <UnComingList />
+          <EndList />
+        </div>
 
-      <Footer />
-    </div>
+      </div>
+      {/* <Footer /> */}
+    </>
   )
 }
 

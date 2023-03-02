@@ -35,7 +35,11 @@ const AccordionCard = ({
             justifyContent: "space-between",
             width: '100%',
             background: ' #343444',
-            alignItems: 'center'
+            alignItems: 'center',
+            '@media (max-width:750px)': {
+              flexDirection: 'column',
+              alignItems: 'flex-start'
+            }
           }}
         >
           <div className={styles.accordion}>{title}</div>
@@ -87,7 +91,7 @@ const AccordionCard = ({
           </div>
         </div>
       </AccordionDetails>
-    </Accordion>
+    </Accordion >
   )
 }
 
