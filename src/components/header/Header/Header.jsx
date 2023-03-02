@@ -31,7 +31,7 @@ const Header = () => {
     {
       key: 'Airdrop',
       name: 'Airdrop',
-      link: '/airdrop'
+      link: '/aigc-mint'
     }
   ]
   useEffect(() => {
@@ -53,7 +53,15 @@ const Header = () => {
 
   const [activeIndex, setActiveIndex] = useState(0)
   const handleOnClick = index => {
-    if (index) {
+    console.log(index)
+
+    if (index===0) {
+      navigate('/')
+      setActiveIndex(index)
+    }else if (index===3){
+      navigate('/aigc-mint')
+      setActiveIndex(index)
+    }else {
       toast.info(
         <Box sx={{
           fontFamily: 'Montserrat Bold',
@@ -65,8 +73,7 @@ const Header = () => {
       )
       return
     }
-    navigate('/')
-    setActiveIndex(index)
+
   }
 
   return (
