@@ -1,11 +1,12 @@
 import styles from './index.module.scss'
-import React from 'react'
+import React, { useState } from 'react'
 import userInfoIcon from '../../assets/img/page/home/userInfo.png'
 import dogeAvatar from '../../assets/img/page/home/suibear.webp'
 import cartIcon from '../../assets/img/page/product_detail/cartIcon.png'
-import { Box, TextField, Button } from '@mui/material'
+import { Box, TextField, Button, Stack, LinearProgress, Typography } from '@mui/material'
 import twitterIcon from '../../assets/img/page/product_detail/twitter.png'
-
+import Dropzone from 'react-dropzone';
+import BackupIcon from '@mui/icons-material/Backup';
 const platformList = [
   {
     name: 'Twitter',
@@ -33,6 +34,15 @@ const ImageSelectComp = () => {
 }
 
 const UploadImageComp = () => {
+  const [progress, setProgress] = useState(50);
+  const onFileInput = (fs) => {
+    if (!fs.length) {
+      return;
+    }
+    const file = fs?.[0];
+    console.log('file', file);
+    setProgress(0)
+  };
   return (
     <>
       <div className={styles.step2}>
@@ -43,6 +53,82 @@ const UploadImageComp = () => {
         Your input image won’t be saved anywhere.
       </div>
 
+      <Stack
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        sx={{
+          width: '100%',
+          position: 'relative',
+          cursor: 'pointer',
+        }}
+      >
+        <Dropzone onDrop={onFileInput}>
+          {
+            ({ getRootProps, getInputProps }) => (
+              <Box
+                {...getRootProps()}
+                sx={{ width: '100%' }}
+              >
+                <input {...getInputProps()} />
+                <Box
+                  sx={{
+                    width: '100%',
+                    background: '#1F1F2C',
+                    /* Drop Shadow Item */
+                    boxShadow: ' 0px 3px 16px rgba(47, 83, 109, 0.12)',
+                    borderRadius: '20px',
+                    height: 260,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    my: 2,
+                  }}
+                >
+                  <BackupIcon />
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      width: '100%',
+                      paddingBottom: '100%',
+                      padding: '20px',
+                      color: ' #5142FC',
+                      mt: '15px',
+                      textAlign: 'center'
+                    }}
+                  >
+                    Drag an image here or tap to upload
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      width: '100%',
+                      paddingBottom: '100%',
+                      padding: '20px',
+                      color: '#8A8AA0',
+                      mt: '15px',
+                      textAlign: 'center'
+                    }}
+                  >
+                    File requirement: JPG or PNG, smaller than 5MB
+                  </Typography>
+                </Box>
+              </Box>
+            )
+          }
+        </Dropzone>
+        <LinearProgress
+          color="inherit"
+          sx={{
+            marginTop: '10px',
+            width: '300px',
+            display: progress > 0 ? 'block' : 'none',
+          }}
+          variant="determinate"
+          value={progress}
+        />
+      </Stack>
       <Button
         className={styles.mintNowForFree}
         sx={{
