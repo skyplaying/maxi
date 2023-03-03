@@ -37,6 +37,7 @@
         .box1 {
           display: flex;
           align-items: center;
+          justify-content: space-between;
 
           @media (max-width:750px) {
             flex-direction: column;
@@ -358,12 +359,11 @@
       .left {
         .swiper {
           img {
-            width: 497px;
-            height: 497px;
-            border: 6px solid #1f2937;
+            width: 250px;
+            height: 250px;
+            //border: 6px solid #1f2937;
             filter: drop-shadow(0px 4px 68px rgba(0, 0, 0, 0.55));
-            border-radius: 24px;
-
+            //border-radius: 24px;
             // margin-left: 80px;
             @media (max-width:750px) {
               width: calc(100vw - 40px);
@@ -372,6 +372,21 @@
           }
         }
       }
+    }
+    .image8{
+      border-top-left-radius: 24px;
+    }
+
+    .image9{
+      border-top-right-radius: 24px;
+    }
+
+    .image10{
+      border-bottom-left-radius: 24px;
+    }
+
+    .image11{
+      border-bottom-right-radius: 24px;
     }
 
     .sencondContent {

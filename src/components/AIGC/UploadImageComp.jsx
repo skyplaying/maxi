@@ -1,4 +1,4 @@
-import styles from '../../pages/Home/index.module.scss'
+import styles from '../../pages/aigc/index.module.scss'
 import React, { useState } from 'react'
 import { Box, Button, Stack, LinearProgress, Typography } from '@mui/material'
 import Dropzone from 'react-dropzone';

@@ -2,12 +2,16 @@ import styles from './index.module.scss'
 import React from 'react'
 import userInfoIcon from '../../assets/img/page/home/userInfo.png'
 import dogeAvatar from '../../assets/img/page/home/suibear.webp'
+import image8 from '../../assets/img/page/aigc/image8.png'
+import image9 from '../../assets/img/page/aigc/image9.png'
+import image10 from '../../assets/img/page/aigc/image10.png'
+import image11 from '../../assets/img/page/aigc/image11.png'
 import { Box, TextField, Button, Typography, ImageList, ImageListItem, Checkbox } from '@mui/material'
 import twitterIcon from '../../assets/img/page/product_detail/twitter.png'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import UploadImageComp from 'src/components/AIGC/UploadImageComp'
-import cartIcon from '../../assets/img/page/product_detail/cartIcon.png'
+import vector from '../../assets/img/page/aigc/Vector.png'
 
 const platformList = [
   {
@@ -21,7 +25,10 @@ const BannerComp = () => {
   return (
     <div className={styles.left}>
       <div className={styles.swiper}>
-        <img src={dogeAvatar} alt='' />
+        <img className={styles.image8} src={image8} alt='' />
+        <img className={styles.image9} src={image9} alt='' />
+        <img className={styles.image10} src={image10} alt='' />
+        <img className={styles.image11} src={image11} alt='' />
       </div>
     </div>
   )
@@ -129,15 +136,15 @@ const InfoComp = () => {
         </div>
       </div>
       <div className={styles.desc}>
-        Suicasso is the first AIGC NFT on SUI. There are 5000 NFTs in total. <br /> <br />
+        Suicasso is the first AIGC NFT on SUI.<br /> <br />
 
         Currently, It is live on the SUI  devnet but all participants will receive the same NFT when the SUI mainnet launches.<br /> <br />
         <div className={styles.descWeight}>
-          The first 1000 of Suicasso will be sent to Maxi supporters for free.  <br />
+          The first 1000 of Suicasso will be sent to Maxi supporters for free. <br />
           Simply:<br />
           1. Follow @maxi_sui on twitter<br />
           2. Retweet this tweet<br />
-          3. Comment your wallet adress on the tweet<br />
+          3. Comment your wallet address on the tweet<br />
           4. Wait for our moderators to add you to the whitelist(Should take a few minutes)<br /><br />
         </div>
         Then you can generate the art and mint it below.<br />
@@ -163,7 +170,7 @@ const AIGCMintContainer = ({ formik }) => {
             startIcon={<Box
               component='img'
               className={styles.icon}
-              src={cartIcon}
+              src={vector}
               alt=''
               sx={{
                 width: 20,

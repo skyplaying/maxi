@@ -14,6 +14,11 @@ const Header = () => {
   const navigate = useNavigate()
   const tabList = [
     {
+      key: 'Suicasso',
+      name: 'Suicasso',
+      link: '/aigc-mint'
+    },
+    {
       key: 'Launchpad',
       name: 'Launchpad',
       link: '/launchpad'
@@ -27,11 +32,6 @@ const Header = () => {
       key: 'Stats',
       name: 'Stats',
       link: '/stats'
-    },
-    {
-      key: 'Airdrop',
-      name: 'Airdrop',
-      link: '/aigc-mint'
     }
   ]
   useEffect(() => {
@@ -56,9 +56,6 @@ const Header = () => {
     console.log(index)
 
     if (index===0) {
-      navigate('/')
-      setActiveIndex(index)
-    }else if (index===3){
       navigate('/aigc-mint')
       setActiveIndex(index)
     }else {
@@ -80,7 +77,7 @@ const Header = () => {
     <header id='header_main' className={classNames(styles.header, 'js-header')} ref={headerRef}>
       <div className={styles.content}>
         <div className={styles.left}>
-          <Link to="/"><img className={styles.logo} src={LogoIcon} alt='' /></Link>
+          <Link to="/aigc-mint"><img className={styles.logo} src={LogoIcon} alt='' /></Link>
           <div className={styles.searchInput}>
             <img src={searchIcon} alt='' className={styles.searchIcon} />
             <input className={styles.input} type='text' placeholder='Type to search...' />
