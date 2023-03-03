@@ -154,6 +154,24 @@ const AIGCMintContainer = ({ formik }) => {
           <InfoComp />
           <TextInputComp formik={formik} />
           <UploadImageComp />
+          <Button
+            className={styles.mintNowForFree}
+            sx={{
+              mt: 2,
+            }}
+            startIcon={<Box
+              component='img'
+              className={styles.icon}
+              src={cartIcon}
+              alt=''
+              sx={{
+                width: 20,
+                height: 20,
+              }}
+            />}
+          >
+            <span>Generate (10 points remaining)</span>
+          </Button>
           <ImageSelectComp formik={formik} />
           <Button
             className={styles.mintNowForFree}
