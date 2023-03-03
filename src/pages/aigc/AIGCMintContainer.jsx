@@ -1,15 +1,13 @@
 import styles from './index.module.scss'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import userInfoIcon from '../../assets/img/page/home/userInfo.png'
 import dogeAvatar from '../../assets/img/page/home/suibear.webp'
-import cartIcon from '../../assets/img/page/product_detail/cartIcon.png'
-import { Box, TextField, Button, Stack, LinearProgress, Typography, ImageList, ImageListItem, Checkbox } from '@mui/material'
+import { Box, TextField, Button, Typography, ImageList, ImageListItem, Checkbox } from '@mui/material'
 import twitterIcon from '../../assets/img/page/product_detail/twitter.png'
-import Dropzone from 'react-dropzone';
-import BackupIcon from '@mui/icons-material/Backup';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import ReactCrop from 'react-image-crop'
+import UploadImageComp from 'src/components/AIGC/UploadImageComp'
+
 const platformList = [
   {
     name: 'Twitter',
@@ -17,61 +15,6 @@ const platformList = [
     url: ''
   }
 ]
-
-function CropComp({ file }) {
-  const [crop, setCrop] = useState({
-    unit: 'px',
-    x: 45,
-    y: 45,
-    width: 510,
-    height: 510
-  });
-  const [src, setSrc] = useState('');
-  useEffect(() => {
-    if (file) {
-      const s = URL.createObjectURL(file);
-      setSrc(s)
-    }
-  }, [file])
-  return (
-    <Box
-      sx={{
-        width: 600,
-        height: 600,
-        border: '1px solid #fff',
-        mt: 2,
-        '.ReactCrop': {
-          height: '100%',
-          '.ReactCrop__child-wrapper': {
-            height: '100%',
-            img: {
-              height: '100%'
-            }
-          }
-        }
-      }}
-    >
-      <ReactCrop
-        crop={crop}
-        onChange={c => {
-          setCrop({
-            ...c,
-            width: 510,
-            height: 510
-          })
-        }}
-      >
-        <Box
-          src={src}
-          component='img'
-          sx={{
-            objectFit: 'cover'
-          }}
-        />
-      </ReactCrop>
-    </Box>
-  )
-}
 
 const BannerComp = () => {
   return (
@@ -137,135 +80,6 @@ const ImageSelectComp = ({ formik }) => {
   )
 }
 
-const UploadImageComp = () => {
-  const [progress, setProgress] = useState(50);
-  const [file, setFile] = useState(null);
-
-  const onFileInput = (fs) => {
-    if (!fs.length) {
-      return;
-    }
-    const file = fs?.[0];
-    setFile(file)
-    setProgress(0)
-  };
-  return (
-    <>
-      <div className={styles.step2}>
-        2. Upload image (Optional)
-      </div>
-      <div className={styles.step1Desc}>
-        Works best with photos which consist only one face. <br />
-        Your input image won’t be saved anywhere.
-      </div>
-      {file ? <CropComp file={file} /> :
-        <Stack
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            width: '100%',
-            position: 'relative',
-            cursor: 'pointer',
-          }}
-        >
-          <Dropzone onDrop={onFileInput}>
-            {
-              ({ getRootProps, getInputProps }) => (
-                <Box
-                  {...getRootProps()}
-                  sx={{ width: '100%' }}
-                >
-                  <input {...getInputProps()} />
-                  <Box
-                    sx={{
-                      width: '100%',
-                      background: '#1F1F2C',
-                      /* Drop Shadow Item */
-                      boxShadow: ' 0px 3px 16px rgba(47, 83, 109, 0.12)',
-                      borderRadius: '20px',
-                      height: 260,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexDirection: 'column',
-                      my: 2,
-                    }}
-                  >
-                    <BackupIcon sx={{
-                      color: '#fff',
-                      width: '50px',
-                      height: '50px'
-                    }} />
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        width: '100%',
-                        paddingBottom: '100%',
-                        padding: '1px',
-                        color: ' #5142FC',
-                        mt: '10px',
-                        textAlign: 'center',
-                        fontFamily: 'Montserrat Bold',
-                        fontWeight: 700,
-                        fontSize: '16px'
-                      }}
-                    >
-                      Drag an image here or tap to upload
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        width: '100%',
-                        paddingBottom: '100%',
-                        padding: '20px',
-                        color: '#8A8AA0',
-                        textAlign: 'center',
-                        fontFamily: 'Montserrat',
-                        fontWeight: 400,
-                        fontSize: '15px'
-                      }}
-                    >
-                      File requirement: JPG or PNG, smaller than 5MB
-                    </Typography>
-                  </Box>
-                </Box>
-              )
-            }
-          </Dropzone>
-          <LinearProgress
-            color="inherit"
-            sx={{
-              marginTop: '10px',
-              width: '300px',
-              display: progress > 0 ? 'block' : 'none',
-            }}
-            variant="determinate"
-            value={progress}
-          />
-        </Stack>
-      }
-      <Button
-        className={styles.mintNowForFree}
-        sx={{
-          mt: 2,
-        }}
-        startIcon={<Box
-          component='img'
-          className={styles.icon}
-          src={cartIcon}
-          alt=''
-          sx={{
-            width: 20,
-            height: 20,
-          }}
-        />}
-      >
-        <span>Generate (10 points remaining)</span>
-      </Button>
-    </>
-  )
-}
 
 const TextInputComp = ({ formik }) => {
   return (
