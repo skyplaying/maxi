@@ -1,6 +1,7 @@
 import ReactCrop from 'react-image-crop'
 import React, { useEffect, useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
+import deleteIcon from '../../assets/img/page/aigc/deleteIcon.svg'
 
 function getCroppedImg(image, crop, fileName) {
   const canvas = document.createElement('canvas');
@@ -37,7 +38,7 @@ function getCroppedImg(image, crop, fileName) {
   });
 }
 
-function CropComp({ file }) {
+function CropComp({ file, setFile }) {
   const [crop, setCrop] = useState({
     unit: 'px',
     x: 45,
@@ -58,6 +59,7 @@ function CropComp({ file }) {
         width: 600,
         height: 600,
         border: '1px solid #fff',
+        position: 'relative',
         mt: 2,
         '.ReactCrop': {
           height: '100%',
@@ -88,6 +90,23 @@ function CropComp({ file }) {
           }}
         />
       </ReactCrop>
+      <IconButton
+        aria-label="more"
+        id="long-button"
+        aria-haspopup="true"
+        sx={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          width: 60,
+          height: 60,
+        }}
+        onClick={() => {
+          setFile(null);
+        }}
+      >
+        <img src={deleteIcon} />
+      </IconButton>
     </Box>
   )
 }

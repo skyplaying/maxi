@@ -101,10 +101,13 @@ const TextInputComp = ({ formik }) => {
         a person as apex legends character, digital illustration portrait design, by android jones <br /> and greg rutkowski, retrowave color scheme, detailed, cinematic lighting, wide angle <br /> action dynamic portrait
       </div>
       <TextField
+        className='text-area'
         name='text'
         error={Boolean(formik.touched.text && formik.errors.text)}
         helperText={Boolean(formik.touched.text) && formik.errors.text}
         fullWidth
+        multiline
+        // rows={4}
         value={formik.values.text}
         onChange={(e) => {
           formik.setFieldValue('text', e.target.value);
@@ -112,7 +115,16 @@ const TextInputComp = ({ formik }) => {
         type='text'
         placeholder="e.g. A master piece of a person in cyberpunk style."
         sx={{
-          my: 2
+          '.MuiInputBase-root': {
+            color: '#C4C4C4 !important',
+            border: '1px solid #C4C4C4'
+          },
+          my: 2,
+          textarea: {
+            border: 'none',
+            lineHeight: '26px',
+            fontSize: '16px'
+          }
         }}
       />
     </>

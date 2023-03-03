@@ -4,7 +4,6 @@ import { Box, Button, Stack, LinearProgress, Typography } from '@mui/material'
 import Dropzone from 'react-dropzone';
 import BackupIcon from '@mui/icons-material/Backup';
 import CropComp from './CropComp'
-
 const UploadImageComp = () => {
   const [progress, setProgress] = useState(50);
   const [file, setFile] = useState(null);
@@ -26,7 +25,7 @@ const UploadImageComp = () => {
         Works best with photos which consist only one face. <br />
         Your input image won’t be saved anywhere.
       </div>
-      {file ? <CropComp file={file} /> :
+      {file ? <CropComp file={file} setFile={setFile} /> :
         <Stack
           direction="column"
           justifyContent="center"
