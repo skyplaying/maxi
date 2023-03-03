@@ -8,8 +8,9 @@ import twitterIcon from '../../assets/img/page/product_detail/twitter.png'
 import cartIcon from '../../assets/img/page/product_detail/cartIcon.png'
 import { mint } from '../../service/aigcMint'
 
-const Home = () => {
+const AIGCMint = () => {
   const history = useNavigate()
+  const [description, setDescription] = useState('');
 
   const platformList = [
     {
@@ -37,12 +38,7 @@ const Home = () => {
     history(`/aigc-mint`)
   }
 
-  const FirstContent = () => {
-    const [value, setValue] = useState('');//把vaule的值存起来，方便其他地方用;
-
-    const onChange = (value: any) => {
-      setValue(value.target.value)
-    }
+  const FirstContent = ({ setDescription, description }) => {
 
     const queryAI = index => {
       mint()
@@ -70,36 +66,43 @@ const Home = () => {
               </div>
             </div>
             <div className={styles.desc}>
-              Suicasso is the first AIGC NFT on SUI. There are 5000 NFTs in total. <br/> <br/>
+              Suicasso is the first AIGC NFT on SUI. There are 5000 NFTs in total. <br /> <br />
 
-              Currently, It is live on the SUI  devnet but all participants will receive the same NFT when the SUI mainnet launches.<br/> <br/>
+              Currently, It is live on the SUI  devnet but all participants will receive the same NFT when the SUI mainnet launches.<br /> <br />
               <div className={styles.descWeight}>
-                The first 1000 of Suicasso will be sent to Maxi supporters for free.  <br/>
-                Simply:<br/>
-                1. Follow @maxi_sui on twitter<br/>
-                2. Retweet this tweet<br/>
-                3. Comment your wallet adress on the tweet<br/>
-                4. Wait for our moderators to add you to the whitelist(Should take a few minutes)<br/><br/>
+                The first 1000 of Suicasso will be sent to Maxi supporters for free.  <br />
+                Simply:<br />
+                1. Follow @maxi_sui on twitter<br />
+                2. Retweet this tweet<br />
+                3. Comment your wallet adress on the tweet<br />
+                4. Wait for our moderators to add you to the whitelist(Should take a few minutes)<br /><br />
               </div>
-              Then you can generate the art and mint it below.<br/>
+              Then you can generate the art and mint it below.<br />
             </div>
 
             <div className={styles.step1}>
               1. Describe your art
             </div>
             <div className={styles.step1Desc}>
-              Describe your desired image with English. <br/>
-              Examples: <br/>
-              a person as apex legends character, digital illustration portrait design, by android jones <br/> and greg rutkowski, retrowave color scheme, detailed, cinematic lighting, wide angle <br/> action dynamic portrait
+              Describe your desired image with English. <br />
+              Examples: <br />
+              a person as apex legends character, digital illustration portrait design, by android jones <br /> and greg rutkowski, retrowave color scheme, detailed, cinematic lighting, wide angle <br /> action dynamic portrait
             </div>
             <div className={styles.picKeywords}>
-              <input onChange={onChange} type='text' placeholder="e.g. A master piece of a person in cyberpunk style."/>
+              <input
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value)
+                }}
+                type='text'
+                placeholder="e.g. A master piece of a person in cyberpunk style."
+              />
             </div>
             <div className={styles.step2}>
               2. Upload image (Optional)
             </div>
             <div className={styles.step1Desc}>
-              Works best with photos which consist only one face. <br/>
+              Works best with photos which consist only one face. <br />
               Your input image won’t be saved anywhere.
             </div>
 
@@ -122,7 +125,7 @@ const Home = () => {
   }
 
   return (
-    <div className={styles.home}>
+    <div className={styles.AIGCMint}>
       <div className={styles.container}>
         {/* <Slider data={heroSliderData} />
       <LiveAuction data={liveAuctionData} />
@@ -130,10 +133,10 @@ const Home = () => {
       <TodayPicks data={todayPickData} />
       <PopularCollection data={popularCollectionData} />
       <Create /> */}
-        <FirstContent />
+        <FirstContent setDescription={setDescription} description={description} />
       </div>
     </div>
   )
 }
 
-export default memo(Home)
+export default memo(AIGCMint)
