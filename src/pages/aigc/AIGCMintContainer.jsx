@@ -7,6 +7,7 @@ import twitterIcon from '../../assets/img/page/product_detail/twitter.png'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import UploadImageComp from 'src/components/AIGC/UploadImageComp'
+import cartIcon from '../../assets/img/page/product_detail/cartIcon.png'
 
 const platformList = [
   {

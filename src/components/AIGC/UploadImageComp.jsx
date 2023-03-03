@@ -1,6 +1,5 @@
 import styles from '../../pages/Home/index.module.scss'
 import React, { useState } from 'react'
-import cartIcon from '../../assets/img/page/product_detail/cartIcon.png'
 import { Box, Button, Stack, LinearProgress, Typography } from '@mui/material'
 import Dropzone from 'react-dropzone';
 import BackupIcon from '@mui/icons-material/Backup';
