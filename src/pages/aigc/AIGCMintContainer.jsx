@@ -1,5 +1,5 @@
 import styles from './index.module.scss'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import userInfoIcon from '../../assets/img/page/home/userInfo.png'
 import dogeAvatar from '../../assets/img/page/home/suibear.webp'
 import cartIcon from '../../assets/img/page/product_detail/cartIcon.png'
@@ -9,7 +9,7 @@ import Dropzone from 'react-dropzone';
 import BackupIcon from '@mui/icons-material/Backup';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-
+import ReactCrop from 'react-image-crop'
 const platformList = [
   {
     name: 'Twitter',
@@ -17,6 +17,61 @@ const platformList = [
     url: ''
   }
 ]
+
+function CropComp({ file }) {
+  const [crop, setCrop] = useState({
+    unit: 'px',
+    x: 45,
+    y: 45,
+    width: 510,
+    height: 510
+  });
+  const [src, setSrc] = useState('');
+  useEffect(() => {
+    if (file) {
+      const s = URL.createObjectURL(file);
+      setSrc(s)
+    }
+  }, [file])
+  return (
+    <Box
+      sx={{
+        width: 600,
+        height: 600,
+        border: '1px solid #fff',
+        mt: 2,
+        '.ReactCrop': {
+          height: '100%',
+          '.ReactCrop__child-wrapper': {
+            height: '100%',
+            img: {
+              height: '100%'
+            }
+          }
+        }
+      }}
+    >
+      <ReactCrop
+        crop={crop}
+        onChange={c => {
+          setCrop({
+            ...c,
+            width: 510,
+            height: 510
+          })
+        }}
+      >
+        <Box
+          src={src}
+          component='img'
+          sx={{
+            objectFit: 'cover'
+          }}
+        />
+      </ReactCrop>
+    </Box>
+  )
+}
 
 const BannerComp = () => {
   return (
@@ -27,14 +82,18 @@ const BannerComp = () => {
     </div>
   )
 }
-const ImageCardBox = () => {
+const ImageCardBox = ({ formik }) => {
   return (
     <ImageList sx={{ width: 600, height: 600 }} cols={2} rowHeight={290}>
       {[1, 2, 3, 4].map((item) => (
         <ImageListItem
           key={item}
           sx={{
-            position: 'relative'
+            position: 'relative',
+            cursor: 'pointer'
+          }}
+          onClick={() => {
+            formik.setFieldValue('checked', item)
           }}
         >
           <img
@@ -50,7 +109,7 @@ const ImageCardBox = () => {
             }}
           >
             <Checkbox
-              defaultChecked
+              checked={formik.values?.checked === item}
               sx={{
                 '& .MuiSvgIcon-root': { fontSize: 40 }
               }}
@@ -64,13 +123,13 @@ const ImageCardBox = () => {
   )
 }
 
-const ImageSelectComp = () => {
+const ImageSelectComp = ({ formik }) => {
   return (
     <>
       <Typography variant="body2" sx={{ my: 2, fontSize: '16px' }}>
         Results:
       </Typography>
-      <ImageCardBox />
+      <ImageCardBox formik={formik} />
       <div className={styles.tapYourFavorite}>
         Tap your favorite image and mint.
       </div>
@@ -80,12 +139,14 @@ const ImageSelectComp = () => {
 
 const UploadImageComp = () => {
   const [progress, setProgress] = useState(50);
+  const [file, setFile] = useState(null);
+
   const onFileInput = (fs) => {
     if (!fs.length) {
       return;
     }
     const file = fs?.[0];
-    console.log('file', file);
+    setFile(file)
     setProgress(0)
   };
   return (
@@ -97,92 +158,93 @@ const UploadImageComp = () => {
         Works best with photos which consist only one face. <br />
         Your input image won’t be saved anywhere.
       </div>
-
-      <Stack
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        sx={{
-          width: '100%',
-          position: 'relative',
-          cursor: 'pointer',
-        }}
-      >
-        <Dropzone onDrop={onFileInput}>
-          {
-            ({ getRootProps, getInputProps }) => (
-              <Box
-                {...getRootProps()}
-                sx={{ width: '100%' }}
-              >
-                <input {...getInputProps()} />
-                <Box
-                  sx={{
-                    width: '100%',
-                    background: '#1F1F2C',
-                    /* Drop Shadow Item */
-                    boxShadow: ' 0px 3px 16px rgba(47, 83, 109, 0.12)',
-                    borderRadius: '20px',
-                    height: 260,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    my: 2,
-                  }}
-                >
-                  <BackupIcon sx={{
-                    color: '#fff',
-                    width: '50px',
-                    height: '50px'
-                  }} />
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      width: '100%',
-                      paddingBottom: '100%',
-                      padding: '1px',
-                      color: ' #5142FC',
-                      mt: '10px',
-                      textAlign: 'center',
-                      fontFamily: 'Montserrat Bold',
-                      fontWeight: 700,
-                      fontSize: '16px'
-                    }}
-                  >
-                    Drag an image here or tap to upload
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      width: '100%',
-                      paddingBottom: '100%',
-                      padding: '20px',
-                      color: '#8A8AA0',
-                      textAlign: 'center',
-                      fontFamily: 'Montserrat',
-                      fontWeight: 400,
-                      fontSize: '15px'
-                    }}
-                  >
-                    File requirement: JPG or PNG, smaller than 5MB
-                  </Typography>
-                </Box>
-              </Box>
-            )
-          }
-        </Dropzone>
-        <LinearProgress
-          color="inherit"
+      {file ? <CropComp file={file} /> :
+        <Stack
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
           sx={{
-            marginTop: '10px',
-            width: '300px',
-            display: progress > 0 ? 'block' : 'none',
+            width: '100%',
+            position: 'relative',
+            cursor: 'pointer',
           }}
-          variant="determinate"
-          value={progress}
-        />
-      </Stack>
+        >
+          <Dropzone onDrop={onFileInput}>
+            {
+              ({ getRootProps, getInputProps }) => (
+                <Box
+                  {...getRootProps()}
+                  sx={{ width: '100%' }}
+                >
+                  <input {...getInputProps()} />
+                  <Box
+                    sx={{
+                      width: '100%',
+                      background: '#1F1F2C',
+                      /* Drop Shadow Item */
+                      boxShadow: ' 0px 3px 16px rgba(47, 83, 109, 0.12)',
+                      borderRadius: '20px',
+                      height: 260,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'column',
+                      my: 2,
+                    }}
+                  >
+                    <BackupIcon sx={{
+                      color: '#fff',
+                      width: '50px',
+                      height: '50px'
+                    }} />
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        width: '100%',
+                        paddingBottom: '100%',
+                        padding: '1px',
+                        color: ' #5142FC',
+                        mt: '10px',
+                        textAlign: 'center',
+                        fontFamily: 'Montserrat Bold',
+                        fontWeight: 700,
+                        fontSize: '16px'
+                      }}
+                    >
+                      Drag an image here or tap to upload
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        width: '100%',
+                        paddingBottom: '100%',
+                        padding: '20px',
+                        color: '#8A8AA0',
+                        textAlign: 'center',
+                        fontFamily: 'Montserrat',
+                        fontWeight: 400,
+                        fontSize: '15px'
+                      }}
+                    >
+                      File requirement: JPG or PNG, smaller than 5MB
+                    </Typography>
+                  </Box>
+                </Box>
+              )
+            }
+          </Dropzone>
+          <LinearProgress
+            color="inherit"
+            sx={{
+              marginTop: '10px',
+              width: '300px',
+              display: progress > 0 ? 'block' : 'none',
+            }}
+            variant="determinate"
+            value={progress}
+          />
+        </Stack>
+      }
       <Button
         className={styles.mintNowForFree}
         sx={{
@@ -278,7 +340,7 @@ const AIGCMintContainer = ({ formik }) => {
           <InfoComp />
           <TextInputComp formik={formik} />
           <UploadImageComp />
-          <ImageSelectComp />
+          <ImageSelectComp formik={formik} />
           <Button
             className={styles.mintNowForFree}
             onClick={() => {
