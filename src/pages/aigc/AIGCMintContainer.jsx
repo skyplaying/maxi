@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import userInfoIcon from '../../assets/img/page/home/userInfo.png'
 import dogeAvatar from '../../assets/img/page/home/suibear.webp'
 import cartIcon from '../../assets/img/page/product_detail/cartIcon.png'
-import { Box, TextField, Button, Stack, LinearProgress, Typography } from '@mui/material'
+import { Box, TextField, Button, Stack, LinearProgress, Typography, ImageList, ImageListItem } from '@mui/material'
 import twitterIcon from '../../assets/img/page/product_detail/twitter.png'
 import Dropzone from 'react-dropzone';
 import BackupIcon from '@mui/icons-material/Backup';
@@ -24,12 +24,33 @@ const BannerComp = () => {
     </div>
   )
 }
+const ImageCardBox = () => {
+  return (
+    <ImageList sx={{ width: 500, height: 450 }} cols={2} rowHeight={164}>
+      {[1, 2, 3, 4].map((item) => (
+        <ImageListItem key={item}>
+          <img
+            src={dogeAvatar}
+            alt={item}
+            loading="lazy"
+          />
+        </ImageListItem>
+      ))}
+    </ImageList>
+  )
+}
 
 const ImageSelectComp = () => {
   return (
-    <div className={styles.tapYourFavorite}>
-      Tap your favorite image and mint.
-    </div>
+    <>
+      <Typography variant="body2" sx={{ my: 2, fontSize: '16px' }}>
+        Results:
+      </Typography>
+      <ImageCardBox />
+      <div className={styles.tapYourFavorite}>
+        Tap your favorite image and mint.
+      </div>
+    </>
   )
 }
 
