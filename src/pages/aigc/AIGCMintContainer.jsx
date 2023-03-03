@@ -3,10 +3,13 @@ import React, { useState } from 'react'
 import userInfoIcon from '../../assets/img/page/home/userInfo.png'
 import dogeAvatar from '../../assets/img/page/home/suibear.webp'
 import cartIcon from '../../assets/img/page/product_detail/cartIcon.png'
-import { Box, TextField, Button, Stack, LinearProgress, Typography, ImageList, ImageListItem } from '@mui/material'
+import { Box, TextField, Button, Stack, LinearProgress, Typography, ImageList, ImageListItem, Checkbox } from '@mui/material'
 import twitterIcon from '../../assets/img/page/product_detail/twitter.png'
 import Dropzone from 'react-dropzone';
 import BackupIcon from '@mui/icons-material/Backup';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+
 const platformList = [
   {
     name: 'Twitter',
@@ -26,14 +29,35 @@ const BannerComp = () => {
 }
 const ImageCardBox = () => {
   return (
-    <ImageList sx={{ width: 500, height: 450 }} cols={2} rowHeight={164}>
+    <ImageList sx={{ width: 600, height: 600 }} cols={2} rowHeight={290}>
       {[1, 2, 3, 4].map((item) => (
-        <ImageListItem key={item}>
+        <ImageListItem
+          key={item}
+          sx={{
+            position: 'relative'
+          }}
+        >
           <img
             src={dogeAvatar}
             alt={item}
             loading="lazy"
           />
+          <Box
+            sx={{
+              position: 'absolute',
+              left: 0,
+              top: 0
+            }}
+          >
+            <Checkbox
+              defaultChecked
+              sx={{
+                '& .MuiSvgIcon-root': { fontSize: 40 }
+              }}
+              icon={<RadioButtonUncheckedIcon />}
+              checkedIcon={<RadioButtonCheckedIcon />}
+            />
+          </Box>
         </ImageListItem>
       ))}
     </ImageList>
@@ -107,16 +131,23 @@ const UploadImageComp = () => {
                     my: 2,
                   }}
                 >
-                  <BackupIcon />
+                  <BackupIcon sx={{
+                    color: '#fff',
+                    width: '50px',
+                    height: '50px'
+                  }} />
                   <Typography
                     variant="body2"
                     sx={{
                       width: '100%',
                       paddingBottom: '100%',
-                      padding: '20px',
+                      padding: '1px',
                       color: ' #5142FC',
-                      mt: '15px',
-                      textAlign: 'center'
+                      mt: '10px',
+                      textAlign: 'center',
+                      fontFamily: 'Montserrat Bold',
+                      fontWeight: 700,
+                      fontSize: '16px'
                     }}
                   >
                     Drag an image here or tap to upload
@@ -128,8 +159,10 @@ const UploadImageComp = () => {
                       paddingBottom: '100%',
                       padding: '20px',
                       color: '#8A8AA0',
-                      mt: '15px',
-                      textAlign: 'center'
+                      textAlign: 'center',
+                      fontFamily: 'Montserrat',
+                      fontWeight: 400,
+                      fontSize: '15px'
                     }}
                   >
                     File requirement: JPG or PNG, smaller than 5MB
