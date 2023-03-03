@@ -95,5 +95,4 @@ const AIGCMint = ({
   )
 }
 
-
 export default AIGCMint
