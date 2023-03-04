@@ -38,3 +38,37 @@ export const mint = async () => {
     return []
   }
 }
+
+export const genaigc = async (content) => {
+  try {
+    const res = await axios.post(`https://api.stability.ai/v1beta/generation/stable-diffusion-512-v2-0/text-to-image`, {
+        "text_prompts": [
+          {
+            "text": content
+          }
+        ],
+        "cfg_scale": 7,
+        "clip_guidance_preset": "FAST_BLUE",
+        "height": 512,
+        "width": 512,
+        "samples": 4,
+        "steps": 20
+      },
+      {
+        headers: {
+          "Authorization": "sk-orcI02jiYxEiIDMNIkZnofc8k9MUToSQJrFco508uVELTciH",
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        }
+      })
+    // console.log('res', res?.data?.artifacts);
+    return res?.data?.artifacts
+    // if (res?.data?.finishReason==="SUCCESS") {
+    //   return res?.data?.data
+    // }
+    // return
+  } catch (error) {
+    console.log('getBanner', error);
+    return []
+  }
+}

@@ -62,12 +62,22 @@
             }
 
             .platformIcon {
+              cursor: pointer;
               width: 44px;
               margin-right: 12px;
             }
           }
         }
-
+        .weijiazai{
+          text-align: center;
+          margin: 83px;
+        }
+        .aiBox{
+          background: #1F1F2C;
+          display: flex;
+          justify-content: center;
+          align-content: center;
+        }
         .picKeywords {
           //width: 584px;
           //height: 46px;

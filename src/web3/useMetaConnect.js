@@ -7,12 +7,13 @@ import { useWeb3React } from '@web3-react/core'
 import { injected } from './connectors'
 
 export function useEagerConnect() {
-  const { activate, active } = useWeb3React()
-
+  const { activate, active, account } = useWeb3React()
+  console.log(account)
   const [tried, setTried] = useState(false)
 
   useEffect(() => {
     injected.isAuthorized().then((isAuthorized) => {
+      console.log("isAuthorized",isAuthorized)
       if (isAuthorized) {
         activate(injected, undefined, true).catch(() => {
           setTried(true)
@@ -35,8 +36,8 @@ export function useEagerConnect() {
 }
 
 export function useInactiveListener(suppress = false) {
-  const { active, error, activate } = useWeb3React()
-
+  const { active, error, activate,account } = useWeb3React()
+  console.log(account)
   useEffect(() => {
     const { ethereum } = window
     if (ethereum && ethereum.on && !active && !error && !suppress) {

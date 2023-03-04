@@ -77,8 +77,8 @@ function CropComp({ file, setFile }) {
         onChange={c => {
           setCrop({
             ...c,
-            width: 510,
-            height: 510
+            // width: 510,
+            // height: 510
           })
         }}
       >
