@@ -1,14 +1,28 @@
 import ReactCrop from 'react-image-crop'
-import React, { useEffect, useState } from 'react'
-import { Box, IconButton } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
+import { Box, IconButton, Button } from '@mui/material'
 import deleteIcon from '../../assets/img/page/aigc/deleteIcon.svg'
+import styles from '../../pages/aigc/index.module.scss'
 
-function getCroppedImg(image, crop, fileName) {
+const saveMyImage = function (canvas, filename) {
+  let strData = canvas.toDataURL('image/jpeg');
+  strData = strData.replace('image/jpeg', 'image/octet-stream');
+  const save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+  save_link.href = strData;
+  save_link.download = filename + '.jpeg';
+  const event = document.createEvent('MouseEvents');
+  event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+  save_link.dispatchEvent(event);
+};
+
+const imageWidth = 512
+
+function saveCroppedImg(image, crop, fileName) {
   const canvas = document.createElement('canvas');
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
-  canvas.width = crop.width;
-  canvas.height = crop.height;
+  canvas.width = imageWidth;
+  canvas.height = imageWidth;
   const ctx = canvas.getContext('2d');
 
   ctx.drawImage(
@@ -19,10 +33,31 @@ function getCroppedImg(image, crop, fileName) {
     crop.height * scaleY,
     0,
     0,
-    crop.width,
-    crop.height
+    imageWidth,
+    imageWidth
   );
+  saveMyImage(canvas, fileName)
+}
 
+function getCroppedBlob(image, crop, fileName) {
+  const canvas = document.createElement('canvas');
+  const scaleX = image.naturalWidth / image.width;
+  const scaleY = image.naturalHeight / image.height;
+  canvas.width = imageWidth;
+  canvas.height = imageWidth;
+  const ctx = canvas.getContext('2d');
+
+  ctx.drawImage(
+    image,
+    crop.x * scaleX,
+    crop.y * scaleY,
+    crop.width * scaleX,
+    crop.height * scaleY,
+    0,
+    0,
+    imageWidth,
+    imageWidth
+  );
   return new Promise((resolve, reject) => {
     canvas.toBlob(blob => {
       if (!blob) {
@@ -31,20 +66,22 @@ function getCroppedImg(image, crop, fileName) {
         return;
       }
       blob.name = fileName;
-      window.URL.revokeObjectURL(this.fileUrl);
-      this.fileUrl = window.URL.createObjectURL(blob);
-      resolve(this.fileUrl);
+      console.log('blob', blob);
+      // window.URL.revokeObjectURL(this.fileUrl);
+      const fileUrl = window.URL.createObjectURL(blob);
+      resolve(fileUrl);
     }, 'image/jpeg');
   });
 }
 
 function CropComp({ file, setFile }) {
+  const imageRef = useRef(null)
   const [crop, setCrop] = useState({
     unit: 'px',
     x: 45,
     y: 45,
-    width: 510,
-    height: 510
+    width: 512,
+    height: 512
   });
   const [src, setSrc] = useState('');
   useEffect(() => {
@@ -54,60 +91,88 @@ function CropComp({ file, setFile }) {
     }
   }, [file])
   return (
-    <Box
-      sx={{
-        width: 600,
-        height: 600,
-        border: '1px solid #fff',
-        position: 'relative',
-        mt: 2,
-        '.ReactCrop': {
-          height: '100%',
-          '.ReactCrop__child-wrapper': {
-            height: '100%',
-            img: {
-              height: '100%'
-            }
-          }
-        }
-      }}
-    >
-      <ReactCrop
-        crop={crop}
-        onChange={c => {
-          setCrop({
-            ...c,
-            // width: 510,
-            // height: 510
-          })
-        }}
-      >
-        <Box
-          src={src}
-          component='img'
-          sx={{
-            objectFit: 'cover'
-          }}
-        />
-      </ReactCrop>
-      <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-haspopup="true"
+    <>
+      <Box
         sx={{
-          position: 'absolute',
-          right: 0,
-          top: 0,
-          width: 60,
-          height: 60,
-        }}
-        onClick={() => {
-          setFile(null);
+          width: 600,
+          minHeight: 600,
+          border: '1px solid #fff',
+          position: 'relative',
+          mt: 2,
+          // '.ReactCrop': {
+          //   height: '100%',
+          //   '.ReactCrop__child-wrapper': {
+          //     height: '100%',
+          //     img: {
+          //       height: '100%'
+          //     }
+          //   }
+          // }
         }}
       >
-        <img src={deleteIcon} />
-      </IconButton>
-    </Box>
+        <ReactCrop
+          crop={crop}
+          onChange={c => {
+            setCrop({
+              ...c,
+              width: c.width,
+              height: c.width
+            })
+          }}
+        >
+          <Box
+            ref={imageRef}
+            src={src}
+            component='img'
+          />
+        </ReactCrop>
+        <IconButton
+          aria-label="more"
+          id="long-button"
+          aria-haspopup="true"
+          sx={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            width: 60,
+            height: 60,
+          }}
+          onClick={() => {
+            setFile(null);
+          }}
+        >
+          <img src={deleteIcon} />
+        </IconButton>
+      </Box>
+
+      <Button
+        variant="contained"
+        className={styles.mintNowForFree}
+        onClick={async () => {
+          const cropImage = await saveCroppedImg(imageRef?.current, crop, 'crop-image')
+        }}
+        sx={{
+          my: 2,
+          marginBottom: '10px !important'
+        }}
+      >
+        Save Image
+      </Button>
+      <Button
+        variant="contained"
+        className={styles.mintNowForFree}
+        onClick={async () => {
+          const cropImage = await getCroppedBlob(imageRef?.current, crop, 'crop-image')
+          console.log('cropImage', cropImage);
+        }}
+        sx={{
+          my: 2,
+          marginBottom: '10px !important'
+        }}
+      >
+        Get Blob
+      </Button>
+    </>
   )
 }
 
