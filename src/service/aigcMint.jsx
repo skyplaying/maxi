@@ -20,14 +20,9 @@ export const checkEligibility = async () => {
     return []
   }
 }
-export const mint = async () => {
+export const getPoint = async (address) => {
   try {
-    const res = await axios.post(`${BaseUrl}/nft/mint/signature/content`, {
-      chain_id: 1111,
-      wallet_address: 1111,
-      nftCollection_id: 3111,
-      nftCollection_address: 1111,
-    })
+    const res = await axios.get(`${BaseUrl}/api/v1/public/ai/points?address=` + address)
     console.log('res', res);
     if (res?.data?.success) {
       return res?.data?.data
@@ -47,17 +42,50 @@ export const genaigc = async (content) => {
             "text": content
           }
         ],
+        "start_schedule": 0.5,
+        "seed": 0,
+        "steps": 30,
         "cfg_scale": 7,
-        "clip_guidance_preset": "FAST_BLUE",
         "height": 512,
         "width": 512,
-        "samples": 4,
-        "steps": 20
+        "samples": 4
       },
       {
         headers: {
           "Authorization": "sk-orcI02jiYxEiIDMNIkZnofc8k9MUToSQJrFco508uVELTciH",
           "Content-Type": "application/json",
+          "Accept": "application/json"
+        }
+      })
+    // console.log('res', res?.data?.artifacts);
+    return res?.data?.artifacts
+    // if (res?.data?.finishReason==="SUCCESS") {
+    //   return res?.data?.data
+    // }
+    // return
+  } catch (error) {
+    console.log('getBanner', error);
+    return []
+  }
+}
+
+export const genaigcByPic = async (content, file) => {
+  try {
+    let formData = new FormData()
+    formData.append('init_image', file)
+    // formData.append("start_schedule", 0.5)
+    formData.append("seed", 0)
+    formData.append("steps", 30)
+    formData.append("cfg_scale", 7)
+    formData.append("height", 512)
+    formData.append("width", 512)
+    formData.append("samples", 4)
+    formData.append('text_prompts[0][text]', content)
+    const res = await axios.post(`https://api.stability.ai/v1beta/generation/stable-diffusion-512-v2-0/image-to-image`, formData,
+      {
+        headers: {
+          "Authorization": "sk-orcI02jiYxEiIDMNIkZnofc8k9MUToSQJrFco508uVELTciH",
+          "Content-Type": "multipart/form-data",
           "Accept": "application/json"
         }
       })

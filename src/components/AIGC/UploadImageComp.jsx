@@ -4,9 +4,8 @@ import { Box, Button, Stack, LinearProgress, Typography } from '@mui/material'
 import Dropzone from 'react-dropzone';
 import BackupIcon from '@mui/icons-material/Backup';
 import CropComp from './CropComp'
-const UploadImageComp = () => {
+const UploadImageComp = ({file,setFile}) => {
   const [progress, setProgress] = useState(50);
-  const [file, setFile] = useState(null);
 
   const onFileInput = (fs) => {
     if (!fs.length) {

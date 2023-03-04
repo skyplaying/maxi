@@ -1,10 +1,13 @@
 import { Modal, Box, Typography, Button } from "@mui/material"
 import { display } from "@mui/system"
+import styles from "../../pages/aigc/index.module.scss";
+import image8 from "../../assets/img/page/aigc/image8.png";
+import React from "react";
 
-const AIGCModal = ({
+const AIGCSuccessModal = ({
   text = "",
   setOpen,
-  open
+  open, userImage=""
 }) => {
   return (
     <Modal
@@ -37,7 +40,29 @@ const AIGCModal = ({
             my: 2,
             whiteSpace: 'pre-line'
           }}
-        >{text}</Typography>
+        >Great! You have successfully minted one AIGC NFT!</Typography>
+        <img className={styles.dialogSuccessImg} src={userImage} alt=''/>
+        <Typography
+          sx={{
+            color: '#C4C4C4',
+            fontFamily: 'Montserrat Bold',
+            fontWeight: 600,
+            fontSize: '16px',
+            my: 2,
+            whiteSpace: 'pre-line'
+          }}
+        >Tip: Right click to save your art</Typography>
+        <Typography
+          sx={{
+            color: '#C4C4C4',
+            fontFamily: 'Montserrat Bold',
+            fontWeight: 600,
+            fontSize: '16px',
+            my: 2,
+            whiteSpace: 'pre-line'
+          }}
+        >Be sure to share your creation using #suicasso on twitter!</Typography>
+
         <Button
           variant="contained"
           sx={{
@@ -61,4 +86,4 @@ const AIGCModal = ({
     </Modal >
   )
 }
-export default AIGCModal
+export default AIGCSuccessModal

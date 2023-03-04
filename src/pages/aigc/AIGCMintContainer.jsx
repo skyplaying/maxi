@@ -12,8 +12,13 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import UploadImageComp from 'src/components/AIGC/UploadImageComp'
 import vector from '../../assets/img/page/aigc/Vector.png'
-import {genaigc} from "../../service/aigcMint";
-
+import {genaigc, genaigcByPic, getPoint} from "../../service/aigcMint";
+import {ConnectWallet} from "../../web3/useMetaConnect";
+import {useWallet} from '@suiet/wallet-kit';
+import {upload, DataURIToBlob, uploadToNFTStorage} from "../../web3/ipfs";
+import CircularProgress from '@mui/material/CircularProgress';
+import AIGCSuccessModal from 'src/components/AIGC/AIGCSuccessModal'
+import AIGCModal from "../../components/AIGC/AIGCModal";
 const platformList = [
   {
     name: 'Twitter',
@@ -36,13 +41,13 @@ const BannerComp = () => {
   )
 }
 
-const ImageCardBox = ({formik,aiImgList}) => {
-  console.log(aiImgList)
+const ImageCardBox = ({formik, aiImgList}) => {
+  console.log("aiImgList", aiImgList)
   return (
     <ImageList sx={{width: 600, height: 600}} cols={2} rowHeight={290}>
       {aiImgList.map((item) => (
         <ImageListItem
-          key={item}
+          key={item.seed}
           sx={{
             position: 'relative',
             cursor: 'pointer'
@@ -52,9 +57,8 @@ const ImageCardBox = ({formik,aiImgList}) => {
           }}
         >
           <div className={styles.aiBox}>
-            <img className={styles.weijiazai}
-                 src={item}
-                 alt={item}
+            <img className={item.seed <= 4 ? styles.weijiazai : null}
+                 src={item.pic}
                  loading="lazy"
             />
           </div>
@@ -80,7 +84,7 @@ const ImageCardBox = ({formik,aiImgList}) => {
   )
 }
 
-const ImageSelectComp = ({formik,aiImgList}) => {
+const ImageSelectComp = ({formik, aiImgList}) => {
   return (
     <>
       <Typography variant="body2" sx={{my: 2, fontSize: '16px'}}>
@@ -173,18 +177,126 @@ const InfoComp = () => {
   )
 }
 
-const AIGCMintContainer = ({formik}) => {
+const AIGCMintContainer = ({formik, userPoint,setOpen,setModalText}) => {
 
-  const [aiImgList, setAiImgList] = useState([]);
+  const [aiImgList, setAiImgList] = useState([
+    {
+      "seed": 1,
+      "pic": weijiazai
+    },
+    {
+      "seed": 2,
+      "pic": weijiazai
+    },
+    {
+      "seed": 3,
+      "pic": weijiazai
+    },
+    {
+      "seed": 4,
+      "pic": weijiazai
+    },
+  ]);
+  const [file, setFile] = useState(null);
+  const [cantClick, setCantClick] = useState(false);
+  const [genLoading, setGenLoading] = useState(false);
+  const [genMintLoading, setGenMintLoading] = useState(false);
 
   const RequestAI = async () => {
-    let aiList=[]
-    const result =await genaigc(formik.values.text)
-    result.forEach((ele,index)=> {
-      aiList.push("data:image/png;base64,"+ele.base64)
+    setCantClick(true)
+    setGenLoading(true)
+    console.log(formik.values.text)
+    if (formik.values.text===""){
+      await setModalText('Please describe your art');
+      setOpen(true)
+      setCantClick(false)
+      setGenLoading(false)
+      return
+    }
+    if (userPoint<=0){
+      await setModalText('Oops, it appears that you run out of points.\n\n'+
+        'Simply comment “I need more points + wallet address” under this tweet. And our moderators will send more to you soon :-)');
+      setOpen(true)
+      setCantClick(false)
+      setGenLoading(false)
+      return
+    }
+    let aiList = []
+    let result
+    if (file == null) {
+      result = await genaigc(formik.values.text)
+      setCantClick(false)
+      setGenLoading(false)
+    } else {
+      result = await genaigcByPic(formik.values.text, file)
+      setCantClick(false)
+      setGenLoading(false)
+    }
+    result.forEach((ele, index) => {
+      const obj = {
+        "seed": ele.seed,
+        "pic": "data:image/png;base64," + ele.base64
+      }
+      aiList.push(obj)
     })
     setAiImgList(aiList)
   }
+
+  const wallet = useWallet();
+  const [successOpen, setSuccessOpen] = useState(false);
+  const [userImage, setUserImage] = useState(false);
+
+  const mintNFT = async () => {
+    if (undefined=== formik.values.checked){
+      await setModalText('Please select one of the four images')
+      setOpen(true)
+      return
+    }
+    var imageString = formik.values.checked.pic;
+
+    if (formik.values.checked.seed<=4){
+      await setModalText('You don\'t have picture')
+      setOpen(true)
+      return
+    }
+    setCantClick(true)
+    setGenMintLoading(true)
+    try {
+      const url=await uploadToNFTStorage(DataURIToBlob(imageString))
+      // console.log(url)
+      const data = {
+        packageObjectId: '0xb161ddb6354c6610807dd2ca83a38be9621aee74',
+        module: 'suicasso',
+        function: 'mint',
+        typeArguments: [],
+        arguments: [
+          '0xd7a4fbd4c4c4fc16a5dbd88d045f0e4faacc31f0',
+          'first nft',
+          "ipfs://"+url,
+        ],
+        gasBudget: 10000,
+      };
+      const resData = await wallet.signAndExecuteTransaction({
+        transaction: {
+          kind: 'moveCall',
+          data
+        }
+      });
+      // console.log('nft minted successfully!', resData);
+      // alert('congrats, a cute capybara comes to you!')
+      setUserImage(imageString)
+      setSuccessOpen(true)
+      setCantClick(false)
+      setGenMintLoading(false)
+    } catch (e) {
+      // console.error('nft mint failed', e);
+      await setModalText('The mint failed for some reason. Please try again.');
+      setOpen(true)
+      setCantClick(false)
+      setGenMintLoading(false)
+    }
+  }
+
 
   return (
     <>
@@ -193,8 +305,9 @@ const AIGCMintContainer = ({formik}) => {
         <div className={styles.right}>
           <InfoComp/>
           <TextInputComp formik={formik}/>
-          <UploadImageComp/>
+          <UploadImageComp file={file} setFile={setFile}/>
           <Button
+            disabled={cantClick}
             onClick={RequestAI}
             className={styles.mintNowForFree}
             sx={{
@@ -211,19 +324,19 @@ const AIGCMintContainer = ({formik}) => {
               }}
             />}
           >
-            <span>Generate (10 points remaining)</span>
+            <span>Generate ({userPoint} points remaining)</span>
+            {genLoading?<CircularProgress className={styles.generateLoading}/>:null}
           </Button>
           <ImageSelectComp formik={formik} aiImgList={aiImgList}/>
           <Button
+            disabled={cantClick}
             className={styles.mintNowForFree}
-            onClick={async () => {
-              const aiImgList = await genaigc()
-              // console.log(aiImgList)
-              // formik.submitForm()
-            }}
-          >
+            onClick={mintNFT}>
             Mint now for free
+            {genMintLoading?<CircularProgress className={styles.generateLoading}/>:null}
           </Button>
+          <AIGCSuccessModal setOpen={setSuccessOpen} userImage={userImage} text={""} open={successOpen} />
+          {/*<AIGCModal setOpen={setOpen} text={modalText} open={open} />*/}
         </div>
       </div>
     </>

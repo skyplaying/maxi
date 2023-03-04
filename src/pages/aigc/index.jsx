@@ -4,10 +4,14 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import AIGCMintContainer from './AIGCMintContainer'
 import AIGCModal from 'src/components/AIGC/AIGCModal'
+import {getBanner, getNftList} from "../../service/home";
+import {useWallet} from "@suiet/wallet-kit";
+import {getPoint} from "../../service/aigcMint";
 
 const AIGCMint = () => {
   const [open, setOpen] = useState(false);
   const [modalText, setModalText] = useState('');
+  const [userPoint, setUserPoint] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -27,12 +31,23 @@ const AIGCMint = () => {
       setOpen(true)
     },
   });
+  const wallet = useWallet();
+
+  const initData = async () => {
+    // console.log(wallet?.account?.address)
+    const resultUserPoint=await getPoint(wallet?.account?.address)
+    setUserPoint(resultUserPoint)
+  }
+
+  useEffect(() => {
+    initData()
+  }, [])
 
   return (
     <>
       <div className={styles.AIGCMint}>
         <div className={styles.container}>
-          <AIGCMintContainer formik={formik} />
+          <AIGCMintContainer formik={formik} userPoint={userPoint} setOpen={setOpen} setModalText={setModalText}/>
         </div>
       </div>
       <AIGCModal setOpen={setOpen} text={modalText} open={open} />
