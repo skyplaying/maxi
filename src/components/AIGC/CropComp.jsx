@@ -62,42 +62,40 @@ function saveCroppedImg(image, crop, fileName) {
   saveMyImage(canvas, fileName)
 }
 
-function getCroppedBlob(image, crop, fileName) {
-  const canvas = document.createElement('canvas');
-  const scaleX = image.naturalWidth / image.width;
-  const scaleY = image.naturalHeight / image.height;
-  canvas.width = imageWidth;
-  canvas.height = imageWidth;
-  const ctx = canvas.getContext('2d');
+async function imageToFile(image, crop, formik) {
+  try {
+    let file = null
+    const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = imageWidth;
+    canvas.height = imageWidth;
+    const ctx = canvas.getContext('2d');
 
-  ctx.drawImage(
-    image,
-    crop.x * scaleX,
-    crop.y * scaleY,
-    crop.width * scaleX,
-    crop.height * scaleY,
-    0,
-    0,
-    imageWidth,
-    imageWidth
-  );
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(blob => {
-      if (!blob) {
-        //reject(new Error('Canvas is empty'));
-        console.error('Canvas is empty');
-        return;
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      imageWidth,
+      imageWidth
+    );
+    await canvas.toBlob(blob => {
+      if (blob) {
+        file = new File([blob], "crop.png");
+        formik.setFieldValue('cropFile', file)
       }
-      blob.name = fileName;
-      console.log('blob', blob);
-      // window.URL.revokeObjectURL(this.fileUrl);
-      const fileUrl = window.URL.createObjectURL(blob);
-      resolve(fileUrl);
-    }, 'image/jpeg');
-  });
+    })
+    return file
+  } catch (error) {
+    console.log('imageToFile', error);
+  }
 }
 
-function CropComp({ file, setFile }) {
+function CropComp({ file, setFile, formik }) {
   const imageRef = useRef(null)
   const [crop, setCrop] = useState({
     unit: 'px',
@@ -190,9 +188,11 @@ function CropComp({ file, setFile }) {
                 width: 60,
                 height: 60,
               }}
-              onClick={() => {
+              onClick={async () => {
                 const url = canvasToImage(imageRef?.current, crop);
                 setCropSrc(url)
+                formik.setFieldValue('cropUrl', url)
+                imageToFile(imageRef?.current, crop, formik)                
               }}
             >
               <img src={confirmicon} />

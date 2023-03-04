@@ -205,7 +205,6 @@ const AIGCMintContainer = ({ formik, userPoint, setOpen, setModalText }) => {
   const RequestAI = async () => {
     setCantClick(true)
     setGenLoading(true)
-    console.log(formik.values.text)
     if (formik.values.text === "") {
       await setModalText('Please describe your art');
       setOpen(true)
@@ -223,15 +222,13 @@ const AIGCMintContainer = ({ formik, userPoint, setOpen, setModalText }) => {
     }
     let aiList = []
     let result
-    if (file == null) {
+    if (!formik.values?.cropFile) {
       result = await genaigc(formik.values.text)
-      setCantClick(false)
-      setGenLoading(false)
     } else {
-      result = await genaigcByPic(formik.values.text, file)
-      setCantClick(false)
-      setGenLoading(false)
+      result = await genaigcByPic(formik.values.text, formik.values.cropFile)
     }
+    setCantClick(false)
+    setGenLoading(false)
     result.forEach((ele, index) => {
       const obj = {
         "seed": ele.seed,
@@ -305,7 +302,7 @@ const AIGCMintContainer = ({ formik, userPoint, setOpen, setModalText }) => {
         <div className={styles.right}>
           <InfoComp />
           <TextInputComp formik={formik} />
-          <UploadImageComp file={file} setFile={setFile} />
+          <UploadImageComp file={file} setFile={setFile} formik={formik} />
           <Button
             disabled={cantClick}
             onClick={RequestAI}
