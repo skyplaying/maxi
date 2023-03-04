@@ -199,7 +199,7 @@ const AIGCMintContainer = ({ formik, userPoint, setOpen, setModalText }) => {
   ]);
   const [file, setFile] = useState(null);
   const [cantClick, setCantClick] = useState(false);
-  const [genLoading, setGenLoading] = useState(true);
+  const [genLoading, setGenLoading] = useState(false);
   const [genMintLoading, setGenMintLoading] = useState(false);
 
   const RequestAI = async () => {
