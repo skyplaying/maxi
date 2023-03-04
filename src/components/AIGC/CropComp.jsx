@@ -148,7 +148,7 @@ function CropComp({ file, setFile }) {
           : <Box
             sx={{
               width: 600,
-              minHeight: 600,
+              // minHeight: 600,
               border: '1px solid #fff',
               position: 'relative',
               mt: 2,
